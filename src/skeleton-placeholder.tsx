@@ -124,26 +124,7 @@ const SkeletonPlaceholder: React.FC<SkeletonPlaceholderProps> & {
 
   if (!enabled || !placeholders) return children;
 
-  if (!layout?.width || !layout.height)
-    return <View onLayout={(event) => setLayout(event.nativeEvent.layout)}>{placeholders}</View>;
-
-  // https://github.com/react-native-linear-gradient/react-native-linear-gradient/issues/358
-  // to make transparent gradient we need to use original color with alpha
-
-  return (
-    <MaskedView style={{height: layout.height, width: layout.width}} maskElement={placeholders}>
-      <View style={[StyleSheet.absoluteFill, {backgroundColor}]} />
-
-      {isAnimationReady && highlightColor !== undefined && transparentColor !== undefined && (
-        <Animated.View style={animatedGradientStyle}>
-          <LinearGradient
-            {...getGradientProps(shimmerWidth)}
-            colors={[transparentColor, highlightColor, transparentColor]}
-          />
-        </Animated.View>
-      )}
-    </MaskedView>
-  );
+  return <View onLayout={(event) => setLayout(event.nativeEvent.layout)}>{placeholders}</View>;
 };
 
 SkeletonPlaceholder.Item = (props) => <View style={getItemStyle(props)}>{props.children}</View>;
